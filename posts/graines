@@ -25,15 +25,15 @@ au bout des 5 jours elles remplissent le bocal.
 
 
 Un ami m'a alors suggéré de filmer le processus : en prenant des photos à
-intervalles réguliers, on peut ensuite assembler les photos pour voir la pousse
+intervalle régulier, on peut ensuite assembler les photos pour voir la pousse
 des graines en accéléré. J'ai donc installé un plateau de tournage au coin de ma
 cuisine, en utilisant mon téléphone pour la prise de photos (la coque équipée
-d'un aimant permettant judicieusement d'accrocher le téléphone à un angle
-métallique servant normalement à caler des livres). Une lampe de chevet sert
-d'éclairage (la nuit); j'ai couvert l'ampoule de papier cuisson pour essayer de
-rendre l'éclairage un peu diffus, mais je pense que ça n'a pas servi à grand
-chose, d'autant que l'éclairage était de toute façon perturbé par les autres
-lampes de l'appartement.
+d'un aimant permettant judicieusement d'accrocher le téléphone à une équerre
+métallique servant d'habitude à caler des livres). Une lampe de chevet sert
+d'éclairage (la nuit); j'ai couvert l'ampoule de papier cuisson pour essayer
+d'adoucir l'éclairage, mais je pense que ça n'a pas servi à grand chose,
+l'éclairage était de toute façon perturbé par les autres lampes de
+l'appartement.
 
 ![photo de l'installation de tournage](/static/img/graines/tournage.jpg)
 
@@ -53,7 +53,7 @@ quand même plutôt content du résultat final.
 
 -----
 
-### détails techniques
+### Détails techniques
 
 Comme je voulais indiquer moi-même le jour/nuit et l'heure dans la vidéo, je
 n'ai pas utilisé la fonctionnalité d'export vidéo du téléphone, et j'ai
@@ -65,7 +65,9 @@ d'indication d'heure.
 
 ```
 # affiche l'heure de la photo au format HH:MM
-phototime() { identify -format "%[EXIF:DateTime]\n" $1 | awk '{split($2,a,":"); print a[1]"h"a[2]}' }
+phototime() {
+  identify -format "%[EXIF:DateTime]\n" $1 | awk '{split($2,a,":"); print a[1]"h"a[2]}' 
+}
 
 # écrit le texte "Jour 1" et "10h20" sur la photo
 # coordonnées à adapter; et en pratique j'appelais $(phototime in.jpg) pour récupérer l'heure
@@ -73,9 +75,9 @@ convert -pointsize 70 -fill white -draw 'rotate -90 text -300,800 "Jour 1" text 
 ```
 
 Une fois l'heure ajoutée sur les photos, j'ai utilisé Kdenlive pour faire le
-montage final. On peut importer un "clip" kdenlive comme une série d'images
+montage final. On peut importer un "clip" Kdenlive comme une série d'images
 ("Add image sequence"), en choisissant le nombre de frames que chaque image doit
-prendre. Plutôt simple donc. La dernière étape étant de bidouiller les
-paramètres au moment du rendu pour que la vidéo ne pèse pas trop lourd (la
-qualité des photos n'étant pas géniale, j'ai redimensionné de 1920x1080 en
-1280x720, et j'ai utilisé le paramètre de qualité 21 pour le codec h264).
+prendre. Plutôt simple donc. La dernière étape étant de jouer avec les
+paramètres de rendu pour que la vidéo finale ne pèse pas trop lourd (la qualité
+des photos n'étant pas géniale, j'ai redimensionné de 1920x1080 en 1280x720,
+mais en utilisant un paramètre de qualité plutôt élevé pour le codec h264 (21)).
