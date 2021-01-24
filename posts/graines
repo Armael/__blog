@@ -64,7 +64,7 @@ Après avoir manuellement séparé les images pour les différentes séquences
 d'indication d'heure.
 
 ```
-# affiche l'heure de la photo au format HH:MM
+# affiche l'heure de la photo au format HHhMM
 phototime() {
   identify -format "%[EXIF:DateTime]\n" $1 | awk '{split($2,a,":"); print a[1]"h"a[2]}' 
 }
