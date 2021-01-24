@@ -1,0 +1,81 @@
+---
+title: Pour une poignée de graines
+author: Armaël
+---
+
+J'ai reçu pour Noël un dispositif permettant de faire pousser des germes de
+graines (radis, cresson, etc) pour ensuite les manger en salade ou
+accompagnement.
+
+Le dispositif en question est très simple : il s'agit juste d'un bocal avec un
+couvercle troué permettant l'écoulement de l'eau (tout en empêchant que les
+graines sortent), un réceptacle pour l'eau, et un pied pour incliner le bocal.
+
+![photo du bocal et de son couvercle](/static/img/graines/bocal.jpg)
+
+Le protocole est le suivant : on met une cuillère à soupe de graines dans le
+bocal rempli d'eau, et on laisse reposer comme ça pendant une nuit. Ensuite, on
+vide le bocal, et pendant 4-5 jours, on rince les graines matin et soir (en
+remplissant le bocal d'eau puis en le vidant juste après, donc on ne fait que
+les humidifier !).
+
+Le premier jour, il ne se passe rien d'observable et on a l'impression que ça ne
+marche pas, mais ensuite les pousses se mettent à grandir étonnamment vite, et
+au bout des 5 jours elles remplissent le bocal.
+
+
+Un ami m'a alors suggéré de filmer le processus : en prenant des photos à
+intervalles réguliers, on peut ensuite assembler les photos pour voir la pousse
+des graines en accéléré. J'ai donc installé un plateau de tournage au coin de ma
+cuisine, en utilisant mon téléphone pour la prise de photos (la coque équipée
+d'un aimant permettant judicieusement d'accrocher le téléphone à un angle
+métallique servant normalement à caler des livres). Une lampe de chevet sert
+d'éclairage (la nuit); j'ai couvert l'ampoule de papier cuisson pour essayer de
+rendre l'éclairage un peu diffus, mais je pense que ça n'a pas servi à grand
+chose, d'autant que l'éclairage était de toute façon perturbé par les autres
+lampes de l'appartement.
+
+![photo de l'installation de tournage](/static/img/graines/tournage.jpg)
+
+Le téléphone était réglé pour prendre une photo toutes les 5 minutes (10 minutes
+le premier jour, mais je me suis vite rendu compte que c'était trop peu).
+
+La contrainte de devoir rincer les graines matin et soir fait qu'on ne peut
+malheureusement avoir une continuité de la vidéo du début jusqu'à la fin : à
+chaque fois qu'on rince, on mélange le contenu du bocal et il y a donc une
+coupure... C'est dommage cinématographiquement, mais c'est comme ça, et je suis
+quand même plutôt content du résultat final.
+
+<video autoplay="false" muted="true" loop="false">
+  <source src="http://srv.isomorphis.me/graines.mp4" type="video/mp4">
+</video>
+
+
+-----
+
+### détails techniques
+
+Comme je voulais indiquer moi-même le jour/nuit et l'heure dans la vidéo, je
+n'ai pas utilisé la fonctionnalité d'export vidéo du téléphone, et j'ai
+directement transféré les photos sur l'ordinateur, pour y faire le montage.
+
+Après avoir manuellement séparé les images pour les différentes séquences
+(jour/nuit), j'ai utilisé les outils imagemagick pour ajouter le texte
+d'indication d'heure.
+
+```
+# affiche l'heure de la photo au format HH:MM
+phototime() { identify -format "%[EXIF:DateTime]\n" $1 | awk '{split($2,a,":"); print a[1]"h"a[2]}' }
+
+# écrit le texte "Jour 1" et "10h20" sur la photo
+# coordonnées à adapter; et en pratique j'appelais $(phototime in.jpg) pour récupérer l'heure
+convert -pointsize 70 -fill white -draw 'rotate -90 text -300,800 "Jour 1" text -300,900 "10h20"' in.jpg out.jpg
+```
+
+Une fois l'heure ajoutée sur les photos, j'ai utilisé Kdenlive pour faire le
+montage final. On peut importer un "clip" kdenlive comme une série d'images
+("Add image sequence"), en choisissant le nombre de frames que chaque image doit
+prendre. Plutôt simple donc. La dernière étape étant de bidouiller les
+paramètres au moment du rendu pour que la vidéo ne pèse pas trop lourd (la
+qualité des photos n'étant pas géniale, j'ai redimensionné de 1920x1080 en
+1280x720, et j'ai utilisé le paramètre de qualité 21 pour le codec h264).
