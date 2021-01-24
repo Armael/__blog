@@ -46,7 +46,7 @@ chaque fois qu'on rince, on mélange le contenu du bocal et il y a donc une
 coupure... C'est dommage cinématographiquement, mais c'est comme ça, et je suis
 quand même plutôt content du résultat final.
 
-<video autoplay="false" muted="true" loop="false">
+<video muted="true" loop="false" controls="true">
   <source src="http://srv.isomorphis.me/graines.mp4" type="video/mp4">
 </video>
 
